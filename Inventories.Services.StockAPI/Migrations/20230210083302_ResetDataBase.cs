@@ -4,7 +4,7 @@
 
 namespace Inventories.Services.StockAPI.Migrations
 {
-    public partial class AddNewDataBase : Migration
+    public partial class ResetDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
