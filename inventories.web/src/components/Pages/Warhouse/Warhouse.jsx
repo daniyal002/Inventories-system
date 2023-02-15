@@ -3,11 +3,17 @@ import axios from "axios";
 import "./Warhouse.css";
 import WarehouseItem from "./WarehouseItem/WarehouseItem";
 import Post from "./WarhousePost/Post";
+import { Input, Row, Col } from "antd";
 
 const Warhouse = () => {
   const [error, setError] = React.useState(null);
   const [isLoader, setIsLoader] = React.useState(false);
   const [warehouse, setWarehouse] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState("");
+
+  const filtered = warehouse.filter((item) => {
+    return item.warehouseName.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   React.useEffect(() => {
     axios.get("https://localhost:7274/api/warehouses").then(
@@ -29,10 +35,22 @@ const Warhouse = () => {
   } else {
     return (
       <div className="items">
-        <Post url={"https://localhost:7274/api/warehouses"} />
-        <div className="items__block">
-          <WarehouseItem warehouse={warehouse} />
-        </div>
+        <Row justify="center">
+          <Col xs={10} sm={10} md={10} lg={10} xl={8}>
+            <Post url={"https://localhost:7274/api/warehouses"} />
+          </Col>
+          <Col xs={10} sm={10} md={10} lg={10} xl={10}>
+            <Input
+              onChange={(event) => setSearchValue(event.target.value)}
+              addonAfter="Поиск"
+            />
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col xs={22} sm={22} md={22} lg={18} xl={18}>
+            <WarehouseItem warehouse={filtered} />
+          </Col>
+        </Row>
       </div>
     );
   }
